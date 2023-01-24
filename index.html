@@ -1,63 +1,112 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="style.css" />
-<center>
-<table>
-	<tr>
-		<td><a class="top_link" href="https://samuel.kyletoft.se/cv">
-			<div>CV</div>
-		</a></td>
-		<td><a href="https://github.com/SKyletoft">
-			<img class="link_image" src="https://samuel.kyletoft.se/logos/github.png"/>
-		</a></td>
-		<td><a href="https://linkedin.com/in/samuel-kyletoft">
-			<img class="link_image" src="https://samuel.kyletoft.se/logos/linkedin.png"/>
-		</a></td>
-	</tr>
-</table>
-<h2 class="maybe_hidden">Quick links</h2>
-<ul class="maybe_hidden">
-	<li><a href="https://youtube.com/feed/subscriptions">YouTube</a></li>
-	<li><a href="https://old.reddit.com">Reddit</a></li>
-	<li><a href="https://news.ycombinator.com">Hacker News</a></li>
-	<li><a href="https://chalmers.instructure.com">Canvas</a></li>
-	<li><a href="https://proxy.cubari.moe">Cubari</a></li>
-</ul>
-<h2>Interesting-ish hacky stuff</h2>
-<ul>
-	<li>
-		<a href="https://cflisp.u3836.se" class="name">CFLISP</a>
-		<a href="https://github.com/SKyletoft/cflisp" class="git">[git]</a>
-	</<li>
-	<li>
-		<a href="https://dhack.u3836.se" class="name">dHack trading cards</a>
-		<a href="https://github.com/SKyletoft/tradingcards.dhack.se" class="git">[git]</a>
-	</li>
-	<li>
-		<span>Artemis</span>
-		<a href="https://github.com/SKyletoft/artemis" class="git">[git]</a>
-	</li>
-	<li>
-		<a href="https://marketplace.visualstudio.com/items?itemName=skyletoft.md407-code" class="name">
-			VS Code MD407 Integration
-		</a>
-		<a href="https://github.com/SKyletoft/mop_templates" class="git">[git]</a></li>
-	<li>
-		<a href="https://samuel.kyletoft.se/valkompass" class="name">Superseriös valkompass 2022</a>
-		<a href="https://github.com/SKyletoft/valkompass_2022" class="git">[git]</a>
-	</li>
-</ul>
-</center>
+<html>
+	<head>
+		<title>Samuel Kyletoft</title>
+		<script src="script3.js"></script>
+		<link rel="stylesheet" type="text/css" href="style3.css" />
+	</head>
+	<body>
+		<div class="parent">
+			<div class="child" id="left">
+				<div class="header"><div class="inner-header"><b>Me</b></div></div>
+				<div class="line">
+					<div class="wide item"><div class="inner-item">Samuel Kyletoft</div></div>
+				</div>
+				<div class="line">
+					<a href="https://github.com/SKyletoft">
+						<div class="wide item link"><div class="inner-item">
+							GitHub
+						</div></div>
+					</a>
+				</div>
+				<div class="line">
+					<a class="top_link" href="https://samuel.kyletoft.se/cv">
+						<div class="wide item link"><div class="inner-item">
+							CV
+						</div></div>
+					</a>
+				</div>
+				<div class="spacing"></div>
+
+				<div class="header"><div class="inner-header"><b>Projects</b></div></div>
+				<div class="line">
+					<div class="medium item"><div class="inner-item">
+						Artemis
+					</div></div>
+					<a href="https://github.com/SKyletoft/artemis">
+						<div class="narrow item link"><div class="inner-item">
+							git
+						</div></div>
+					</a>
+				</div>
+				<div class="line">
+					<a href="https://cflisp.u3836.se">
+						<div class="medium item link"><div class="inner-item">
+							Cflisp
+						</div></div>
+					</a>
+					<a href="https://github.com/SKyletoft/cflisp">
+						<div class="narrow item link"><div class="inner-item">
+							git
+						</div></div>
+					</a>
+				</div>
+				<div class="line">
+					<a href="https://marketplace.visualstudio.com/items?itemName=skyletoft.md407-code">
+						<div class="medium item link"><div class="inner-item">
+							MD407 for VSC
+						</div></div>
+					</a>
+					<a href="https://github.com/SKyletoft/mop_templates">
+						<div class="narrow item link"><div class="inner-item">
+							git
+						</div></div>
+					</a>
+				</div>
+				<div class="line">
+					<a href="https://samuel.kyletoft.se/valkompass">
+						<div class="medium item link"><div class="inner-item">
+							Superseriös valkompass 2022
+						</div></div>
+					</a>
+					<a href="https://github.com/SKyletoft/valkompass_2022">
+						<div class="narrow item link"><div class="inner-item">
+							git
+						</div></div>
+					</a>
+				</div>
+				<div class="spacing"></div>
+
+				<div class="header"><div class="inner-header"><b>Contact</b></div></div>
+				<a href="mailto:samuel@kyletoft.se">
+					<div class="line">
+						<div class="wide item link"><div class="inner-item">
+								samuel@kyletoft.se
+						</div></div>
+					</div>
+				</a>
+				<a href="https://linkedin.com/in/samuel-kyletoft">
+					<div class="line">
+						<div class="wide item link"><div class="inner-item">
+								LinkedIn
+						</div></div>
+					</div>
+				</a>
+			</div>
+			<img class="child" id="right" src="cropped.jpeg" />
+		</div>
+	</body>
+</html>
 
 <script>
-const maybe_hide = document.getElementsByClassName("maybe_hidden");
-const hide =
-	location.host == "u3836.se"
-	|| localStorage.getItem("showHidden") != null;
+	// setTimeout(() => {window.location.reload(false);}, 500);
 
-if (!hide) {
-	for (let element of maybe_hide) {
-		element.style.display = "none";
-	}
-}
+	const high_res_img = document.createElement("img");
+	high_res_img.src = "cropped.png";
+	high_res_img.addEventListener("load", () => {
+		document.getElementById("right").src = "cropped.png";
+		console.log("loaded");
+	});
+
 </script>
