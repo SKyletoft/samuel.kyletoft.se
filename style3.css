@@ -1,6 +1,5 @@
 .header {
 	height: 4rem;
-	width: 100%;
 	vertical-align: middle;
 	background: linear-gradient(
 		180deg,
@@ -9,7 +8,8 @@
 	);
 }
 .inner-header {
-	margin-left: 15px;
+	margin-top: 0.5rem;
+	margin-left: 0.5rem;
 	display: inline-block;
 	font-family: "Roboto", "Helvetica", sans-serif;
 	font-size: 2rem;
@@ -26,27 +26,23 @@
 	background-color: #eeeeee;
 	margin: 0px;
 	display: inline-block;
-	color: #555555;
-}
-.link:hover {
-	background-color: #dddddd;
-	/*background: linear-gradient(
-		90deg,
-		#eeeeee  0%,
-		#dddddd 15%,
-		#dddddd 50%,
-		#eeeeee 95%
-	);*/
+	color: #666666;
 }
 .inner-item {
 	font-family: "Roboto", "Helvetica", sans-serif;
-	/* font-size: 3.5vh; */
-	height: 1.5rem;
-	color: black;
+	font-size: 1.5rem;
+	height: 2.25rem;
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.link {
+	color: black;
+}
+.link:hover {
+	background-color: #dddddd;
 }
 
 .wide {
@@ -70,17 +66,17 @@
 div {
 	margin: 0px;
 	padding: 0px;
-	display: block;
-}
-
-#left {
-	flex-grow: 1;
 }
 
 #right {
-	max-height: 80vh;
 	object-fit: cover;
 }
+@media screen and (orientation:portrait) { #right {
+	width: 95vw;
+}}
+@media screen and (orientation:landscape) { #right {
+	max-height: 80vh;
+}}
 
 body {
 	display: flex;
@@ -88,17 +84,12 @@ body {
 	align-items: center;
 	overflow-x: hidden;
 }
-@media screen and (orientation:landscape) { body {
-	overflow-y: hidden;
-}}
 
 .parent {
-	margin-top: 10vh;
-	margin-bottom: 10vh;
+	margin-top: 8vh;
 }
 @media screen and (orientation:portrait) { .parent {
 	width: 95vw;
-	/* height: 80vh; */
 }}
 @media screen and (orientation:landscape) { .parent {
 	display: flex;
