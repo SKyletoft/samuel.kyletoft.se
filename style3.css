@@ -96,7 +96,7 @@ body {
 	margin-top: 10vh;
 	margin-bottom: 10vh;
 }
-@media screen and (orientation:portait) { .parent {
+@media screen and (orientation:portrait) { .parent {
 	width: 95vw;
 	/* height: 80vh; */
 }}
@@ -106,7 +106,7 @@ body {
 	height: 80vh;
 }}
 
-@media screen and (orientation:portait) { .child {
+@media screen and (orientation:portrait) { .child {
 	max-width: 95vw;
 }}
 
