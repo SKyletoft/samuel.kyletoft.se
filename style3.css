@@ -10,13 +10,14 @@
 	display: inline-block;
 	vertical-align: middle;
 	font-family: "Roboto", "Helvetica", sans-serif;
-	font-size: 38px;
+	font-size: 4vh;
 	color: white;
 }
 
 .line {
 	display: block;
 	font-size: 0px;
+	white-space: nowrap;
 }
 
 .item {
@@ -29,7 +30,7 @@
 }
 .inner-item {
 	font-family: "Roboto", "Helvetica", sans-serif;
-	font-size: 32px;
+	font-size: 3.5vh;
 	height: 1.5em;
 	color: black;
 	margin-left: 0.5em;
@@ -53,7 +54,7 @@
 
 .spacing {
 	width: 0px;
-	height: 5%;
+	height: 5vh;
 }
 
 div {
@@ -69,33 +70,41 @@ div {
 #right {
 	max-height: 80vh;
 	object-fit: cover;
-	/*
-	display: block;
-	object-fit: contain;
-	*/
 }
 
 body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow: hidden;
 }
+@media screen and (orientation:landscape) { body {
+	overflow: hidden;
+}}
 
 .parent {
 	margin-top: 10vh;
 	margin-bottom: 10vh;
+}
+@media screen and (orientation:portait) { .parent {
+	width: 80vw;
+	height: 80vh;
+}}
+@media screen and (orientation:landscape) { .parent {
 	display: flex;
 	width: 60vw;
 	height: 80vh;
-}
+}}
 
-.child {
+@media screen and (orientation:portait) { .child {
+	max-width: 95vw;
+}}
+
+@media screen and (orientation:landscape) { .child {
 	flex-grow: 1;
 	max-width: 29vw;
 	margin-left: 0.5vw;
 	margin-right: 0.5vw;
-}
+}}
 
 a {
 	width: 100%;
