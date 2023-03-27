@@ -116,5 +116,7 @@ a {
 }
 
 .ai {
+	font-size: 0px;
+	display: block;
 	color: white;
 }
