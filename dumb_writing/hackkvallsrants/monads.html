@@ -8,58 +8,65 @@
 	<body>
 
 <h1>Why Monads?</h1>
-<p>So, <i>monads</i> (UK: <i>Monn-add</i>, US: <i>Moe-nadd</i>) are a thing used kinda everywhere in
-Functional Programming and beyond, even if people
-don't know that what they're working with is a monad
-once you leave the FP space.</p>
+<p>So, <i>monads</i> (UK: <i>Monn-add</i>, US: <i>Moe-nadd</i>) are a
+thing used kinda everywhere in Functional Programming and beyond, even
+if people don't know that what they're working with is a monad once
+you leave the FP space.</p>
 
 <h2>What is a monad?</h2>
-<p>A monad is a container that can have a neutral (empty) state and a set
-of operations on the things that maybe exist within it.</p>
+<p>
+A monad is a container that can have a neutral (empty) state and a
+set of operations on the things that maybe exist within it. These
+operations also need to obey a set of laws.
+</p>
 
 <h2>What?</h2>
 <p>Let's start with a list and function called <code>map</code>.</p>
 
 <pre>
-  myList = [1,2,3,4] :: [Int]
-  someFunction = λx → x + 1 :: Int → Int
+myList = [1,2,3,4] :: [Int]
+someFunction = λx → x + 1 :: Int → Int
 
-  $ map someFunction myList
-  > [2,3,4,5]
+$ map someFunction myList
+> [2,3,4,5]
 </pre>
 
-<p>Hopefully you've <code>seen</code> map before. Now consider a special list that can
-at most take one element:</p>
+<p>Hopefully you've seen <code>map</code> before. Now consider a
+special list that can at most take one element:</p>
 
 <pre>
-  data MaxOneList α
-    = One α
-    | Empty
+data MaxOneList α
+  = One α
+  | Empty
 </pre>
 
 <p>Surely map should work on this list too.</p>
 <pre>
-  map :: (α → β) → MaxOneList α → MaxOneList β
-  map _ Empty   = Empty
-  map f (One x) = One (f x)
+map :: (α → β) → MaxOneList α → MaxOneList β
+map _ Empty   = Empty
+map f (One x) = One (f x)
 </pre>
 
-<p>Now a list of max one element might seem like a dumb idea, but that's
-essentially what a <code>Maybe</code> or an <code>Option</code> is.</p>
+<p>
+Now a list of max one element might seem like a dumb idea, but that's
+essentially what a <code>Maybe</code> or an <code>Option</code> is.
+</p>
 
 <pre>
-  data MaxOneList α │ data Maybe α │ data Option
-    = One α         │   = Just α   │   = Some α
-    | Empty         │   | Nothing  │   | None
+data MaxOneList α │ data Maybe α │ data Option
+  = One α         │   = Just α   │   = Some α
+  | Empty         │   | Nothing  │   | None
 </pre>
 
-<p>So clearly map is a function that should operate over a greater set of
+<p>
+So clearly map is a function that should operate over a greater set of
 types than just the simple list. In the haskell world we call this set
-of types Functors and the interface is just that simple.</p>
+of types Functors and the interface is just that simple.
+</p>
 
 <pre>
-  class Functor container where
-    fmap :: (α → β) → container α → container β
+class Functor container where
+  fmap :: (α → β) → container α → container β
 </pre>
 
 <p>Now we can write code that is generic over any container that has α
@@ -70,20 +77,20 @@ important interfaces are return and bind (also
 called <code>and_then</code>).</p>
 
 <pre>
-  class Monad container where
-    return :: α → container α
-    bind   :: container α → (α → container β) → container β
+class Monad container where
+  return :: α → container α
+  bind   :: container α → (α → container β) → container β
 </pre>
 
 <p>(<code>Bind</code> is usually spelled <code>>>=</code>.)</p>
 <p><code>Return</code> just wraps the element in the container.</p>
 
 <pre>
-  $ return x :: Maybe α
-  > Just x
+$ return x :: Maybe α
+> Just x
 
-  $ return x :: [α]
-  > [x]
+$ return x :: [α]
+> [x]
 </pre>
 
 <p><code>Bind</code> however is the more interesting part. In the case
@@ -91,37 +98,255 @@ of <code>Maybe</code> you might and an element and you have a function
 that might give you a result.</p>
 
 <pre>
-  $ bind (Just 2) (λx → Just (x + 1))
-  > Just 3
+$ bind (Just 2) (λx → Just (x + 1))
+> Just 3
 </pre>
 
 <p><code>Bind</code> is essentially just a flattened <code>fmap</code>.</p>
 
 <pre>
-  flatten :: Maybe (Maybe α) → Maybe α
-  flatten (Just (Just x) = Just x
-  flatten _              = Nothing
+flatten :: Maybe (Maybe α) → Maybe α
+flatten (Just (Just x) = Just x
+flatten _              = Nothing
 
-  bind :: Maybe α → (α → Maybe β) → Maybe β
-  bind Nothing _  = Nothing
-  bind (Just x) f = f x
+bind :: Maybe α → (α → Maybe β) → Maybe β
+bind Nothing _  = Nothing
+bind (Just x) f = f x
 
-  <=>
+⇔
 
-  bind x f = flatten (fmap f x)
+bind x f = flatten (fmap f x)
 </pre>
 
 For lists flatten is called <code>concat</code> and works like this:
 <pre>
-  $ concat [[1, 2], [3], [4], [5, 6, 7]
-  > [1, 2, 3, 4, 5, 6, 7]
+$ concat [[1, 2], [3], [4], [5, 6, 7]
+> [1, 2, 3, 4, 5, 6, 7]
 </pre>
 
-<p>You might've seen <code>flatMap</code> or <code>concatMap</code>. They're <code>bind</code>!</p>
+<p>
+You might've seen <code>flatMap</code>
+or <code>concatMap</code>. They're <code>bind</code>!
+</p>
 
-<p>And that's all a monad is, a generic interface with these operations.</p>
+<p>And that's all a monad is, a generic interface with these
+operations.</p>
 
 <h2>So, why?</h2>
+
+Let's look at something else first.
+
+<pre>
+for n in [1, 2, 3] {
+    f(n)
+}
+</pre>
+
+<p>
+This is a for loop. It's a standard construct in most languages
+today. If we're in a statementless language (where everything is an
+expression) a for-loop is basically just syntactic sugar for a map. If
+the purpose of the loop is a sideeffect then you're collecting units
+or IO actions, but you're still mapping.
+</p>
+
+<p> Let's rewrite this as a map. </p>
+<pre>
+fmap f [1, 2, 3]
+</pre>
+
+<p>
+And to restrict us to the monadic interface let's switch to bind.
+</p>
+<pre>
+fmap f xs
+⇔
+concat (map (return ∘ f) xs)
+⇔
+bind xs (return ∘ f)
+</pre>
+
+<p>
+Now this seems kinda useless but we have syntactic sugar for this case
+called do notation.
+</p>
+
+<pre>
+do
+  n ← [1, 2, 3]
+  return (f x)
+</pre>
+
+<p>
+Now that we're returning a list of a single element at the end of each
+iteration we can also easily implement a filter function by returning
+the empty list in cases we want to remove:
+</p>
+
+<pre>
+filter :: (α → Bool) → [α] → [α]
+filter cond xs = do
+  n ← xs
+  if (cond n)
+    then [n]
+    else []
+</pre>
+
+<p>
+This might seem kinda useless as an extra language feature, why
+don't we just have loops? Let's look at another example.
+</p>
+
+<p> This is C++. </p>
+<pre>
+// bar and bax may throw
+int bar();
+int baz();
+int bax(int, int);
+
+int foo() {
+    int a = bar();
+    int b = baz();
+
+    return bax(a, b);
+}
+</pre>
+<p>
+We calculate two values and return a combined value. Some operations
+may throw and can cancel our function. This is invisible and something
+we can never rely on as all functions may always throw (ignoring C++11
+noexcept). We can model this control flow explicitly with a more
+classical C API (which is basically what Go still uses).
+</p>
+<pre>
+error_t bar(int *out);
+int baz();
+error_t bax(int, int, int *out);
+
+error_t foo(int *out) {
+    int a, b, result;
+    error_t failed;
+
+    failed = bar(&a);
+    if (failed) {
+	return FAIL;
+    }
+
+    b = baz();
+
+    failed = bax(a, b, &result);
+    if (failed) {
+	return FAIL;
+    }
+
+    *out = result;
+    return OK;
+}
+</pre>
+
+<p>
+This works and is very clear what it's doing, but it's verbose and
+error prone. What happens if we forget to check an error somewhere and
+just start using the result? That's where Rust comes in with its enums
+and Result type.
+</p>
+
+<pre>
+fn bar()         → Result&lt;i32, E>;
+fn baz()         → i32;
+fn bax(i32, i32) → Result&lt;i32, E>;
+
+fn foo() → Result&lt;i32, E> {
+    let a;
+    let b;
+
+    match bar() {
+	Ok(n) ⇒ a = n,
+	Err(e) ⇒ return Err(e),
+    }
+    b = baz();
+
+    bax(a, b)
+}
+</pre>
+
+<p>
+Now the types of the fallible functions force us to handle the errors
+but it's still horribly verbose. Luckily Rust has
+the <code>?</code>-operator to handle this common pattern.
+</p>
+<pre>
+fn bar()         → Result&lt;i32, E>;
+fn baz()         → i32;
+fn bax(i32, i32) → Result&lt;i32, E>;
+
+fn foo() → Result&lt;i32, E> {
+    let a = bar()?;
+    let b = baz();
+
+    bax(a, b)
+}
+</pre>
+
+<p>This version is finally explicit, safe and readable without any
+major compromises. Here's the (super obvious) twist: Result is a
+monad. We can compare this to the do-notiation version:</p>
+
+<pre>
+bar :: Maybe Int
+baz :: Int
+bax :: Maybe Int
+
+foo = do
+  a <- bar
+  let b = baz
+  bax a b
+</pre>
+
+<p>
+The <code>?</code>-operator has become the <code><-</code> arrow and
+the non-fallible operation has become a plain let. This then desugars to:
+</p>
+
+<pre>
+bar :: Maybe Int
+baz :: Int
+bax :: Maybe Int
+
+foo = bar >>= (λa → let b = baz in bax a b)
+</pre>
+
+<p>
+If we had multiple fallible steps we could end up with (After fully
+inlining the lambdas and the definition of bind above):
+</p>
+
+<pre>
+foo = bar >>= (λa → baz >>= (λb → bax a b))
+⇔
+foo = case bar of
+  Nothing → Nothing
+  Just a  → case baz of
+	      Nothing → Nothing
+	      Just b  → bax a b
+</pre>
+
+<p>
+Which shows that we're still just running each function, checking if
+we need to short circuit evaluation and then going on to the next
+step. <code>Maybe</code> and <code>Result ErrorType</code> are
+essentially the same thing and close enough to exceptions. In other
+words we have now modelled both for each loops and exceptions with the
+same language feature and that's the point of monads. We have a single
+language piece of syntax (do-notation) that can model a bunch of
+language features provided by libraries rather than being language
+builtins. Now, is this an actual good and practical thing or is it
+just a cool idea? That's still up to debate. Monads are still
+considered a very niche topic and even within the FP community where
+people are aware of and use them tides seem to be turning against them
+and towards algebraic effects.
+</p>
+
 
 
 <h2>Sidestory: Applicative</h2>
@@ -131,30 +356,30 @@ Applicative. It's similar to (f)map but we also keep the function in
 the container and has a way to wrap an element in a container.
 
 <pre>
-  class Functor container ⇒ Applicative container where
-    pure :: α → container α
-    <*>  :: container (α → β) → container α → container β
+class Functor container ⇒ Applicative container where
+  pure :: α → container α
+  <*>  :: container (α → β) → container α → container β
 </pre>
 
 It using it looks like this:
 
 <pre>
-  f = λx → x + 1
+f = λx → x + 1
 
-  $ pure x
-  > Just x
+$ pure x
+> Just x
 
-  $ pure f <*> pure 1 :: Maybe Int
-  > Just 2
+$ pure f <*> pure 1 :: Maybe Int
+> Just 2
 
-  $ Nothing <*> Just 1
-  > Nothing
+$ Nothing <*> Just 1
+> Nothing
 
-  $ Just f <*> Nothing
-  > Nothing
+$ Just f <*> Nothing
+> Nothing
 
-  $ [f, g] <*> [x, y]
-  > [f x, f y, g x, g y]
+$ [f, g] <*> [x, y]
+> [f x, f y, g x, g y]
 </pre>
 
 
@@ -164,6 +389,14 @@ It using it looks like this:
 			code, pre {
 				background-color: #F0F0F0;
 				border-radius: 5px;
+				overflow: scroll;
+			}
+			pre {
+				padding-left: 0.5em;
+			}
+			code {
+				padding-left: 0.1em;
+				padding-right: 0.1em;
 			}
 		</style>
 	</body>
