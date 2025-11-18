@@ -1,129 +1,4 @@
-/*
-.header {
-	height: 4rem;
-	vertical-align: middle;
-	background: linear-gradient(
-		180deg,
-		#cccccc   0%,
-		#c0c0c0 100%
-	);
-}
-.inner-header {
-	margin-top: 0.5rem;
-	margin-left: 0.5rem;
-	display: inline-block;
-	font-family: "Roboto", "Helvetica", sans-serif;
-	font-size: 2rem;
-	color: white;
-}
-
-.line {
-	display: block;
-	font-size: 0px;
-	white-space: nowrap;
-}
-
-.item {
-	background-color: #eeeeee;
-	margin: 0px;
-	display: inline-block;
-	color: #666666;
-}
-.inner-item {
-	font-family: "Roboto", "Helvetica", sans-serif;
-	font-size: 1.5rem;
-	height: 2.25rem;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.link {
-	color: black;
-}
-.link:hover {
-	background-color: #dddddd;
-}
-
-.wide {
-	width: 100%;
-	text-align: left;
-}
-.medium {
-	width: 75%;
-	text-align: left;
-}
-.narrow {
-	width: 25%;
-	text-align: center;
-}
-
-.spacing {
-	width: 0px;
-	height: 5vh;
-}
-
-div {
-	margin: 0px;
-	padding: 0px;
-}
-
-#right {
-	object-fit: cover;
-}
-@media screen and (orientation:portrait) { #right {
-	width: 95vw;
-}}
-@media screen and (orientation:landscape) { #right {
-	max-height: 80vh;
-}}
-
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow-x: hidden;
-}
-
-.parent {
-	margin-top: 8vh;
-}
-@media screen and (orientation:portrait) { .parent {
-	width: 95vw;
-}}
-@media screen and (orientation:landscape) { .parent {
-	display: flex;
-	width: 60vw;
-	height: 80vh;
-}}
-
-@media screen and (orientation:portrait) { .child {
-	max-width: 95vw;
-}}
-
-@media screen and (orientation:landscape) { .child {
-	flex-grow: 1;
-	max-width: 29vw;
-	margin-left: 0.5vw;
-	margin-right: 0.5vw;
-}}
-
-a {
-	width: 100%;
-	height: 100%;
-	color: black;
-	text-decoration: none;
-}
-
-.ai {
-	font-size: 0px;
-	display: block;
-	color: white;
-}
-*/
-
-/* Base layout */
+/* Base layout — no transitions for size */
 .header {
 	height: 4rem;
 	vertical-align: middle;
@@ -196,56 +71,11 @@ div {
 	object-fit: cover;
 }
 
-/* Animated properties */
+/* Enable transitions ONLY for movement-related properties */
 .parent,
 .child,
 #right {
-	transition: all 0.5s ease;
-}
-
-/* Default: portrait-like (aspect ratio ≤ 4:3) */
-@media (max-aspect-ratio: 4/3) {
-	#right {
-		width: 95vw;
-	}
-	body {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		overflow-x: hidden;
-	}
-	.parent {
-		margin-top: 8vh;
-		width: 95vw;
-	}
-	.child {
-		max-width: 95vw;
-	}
-}
-
-/* Landscape-like (aspect ratio ≥ 4:3) */
-@media (min-aspect-ratio: 4/3) {
-	#right {
-		max-height: 80vh;
-	}
-	body {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		overflow-x: hidden;
-	}
-	.parent {
-		display: flex;
-		margin-top: 8vh;
-		width: 60vw;
-		height: 80vh;
-	}
-	.child {
-		flex-grow: 1;
-		max-width: 29vw;
-		margin-left: 0.5vw;
-		margin-right: 0.5vw;
-	}
+	transition: margin 0.5s ease, order 0.5s ease, transform 0.5s ease;
 }
 
 a {
@@ -259,4 +89,67 @@ a {
 	font-size: 0;
 	display: block;
 	color: white;
+}
+
+/* Portrait-like: aspect ratio ≤ 4/3 */
+@media (max-aspect-ratio: 4/3) {
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow-x: hidden;
+	}
+
+	/* Stack vertically */
+	.parent {
+		display: block;
+		margin-top: 8vh;
+		width: 95vw;
+	}
+
+	.child {
+		max-width: 95vw;
+		margin-bottom: 1rem;
+		order: 1;
+	}
+
+	#right {
+		width: 95vw;
+		max-height: none;
+		order: 2;               /* Moves image below the content */
+		margin-top: 1rem;
+	}
+}
+
+/* Landscape-like: aspect ratio ≥ 4/3 */
+@media (min-aspect-ratio: 4/3) {
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow-x: hidden;
+	}
+
+	/* Side-by-side layout */
+	.parent {
+		display: flex;
+		margin-top: 8vh;
+		width: 60vw;
+		height: 80vh;
+	}
+
+	.child {
+		flex-grow: 1;
+		max-width: 29vw;
+		margin-left: 0.5vw;
+		margin-right: 0.5vw;
+		order: 1;
+	}
+
+	#right {
+		max-height: 80vh;
+		width: auto;
+		order: 2;               /* Stays on the right */
+		margin-top: 0;
+	}
 }
